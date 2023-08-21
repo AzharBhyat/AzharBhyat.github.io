@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Search App</title>
+  <!-- Include Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Search App</title>
+    <!-- Include Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+      .a{
+        text-decoration: none;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #121212, #000000);
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      #app {
+        width: 65%;
+        padding: 20px;
+        text-align: center;
+      }
+      h1 {
+        color: #1DB954;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        background-color: #333;
+        border: none;
+        border-radius: 5px;
+        color: white;
+      }
+      input[type="text"]::placeholder {
+        color: #999;
+      }
+      button {
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #0E8343;
+      }
+      .user-box-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .user-box {
+        flex: 0 0 calc(20% - 20px);
+        margin: 10px;
+        padding: 20px;
+        background-color: #333;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .user-box h3 {
+        color: #1DB954;
+        margin: 0;
+      }
+    </style>
+</head>
+<body>
+  <div id="app">
+    <h1><i class="fas fa-music"></i> Music Search</h1>
+    <input type="text" id="searchInput" placeholder="Search for music...">
+    <button id="searchButton"><i class="fas fa-search"></i> Search</button>
+    <div id="results"></div>
+    <div id="userResults" class="user-results"></div>
+  </div>
+
+  <!-- Include the Font Awesome script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script>
+    const searchButton = document.getElementById('searchButton');
+    const userResultsDiv = document.getElementById('userResults');
+
+    searchButton.addEventListener('click', async () => {
+      const response = await fetch(`http://azhar.ddns.net:5000/mpthree?search=${document.getElementById('searchInput').value}&limit=5`);
+      const data = await response.json();
+
+      const users = data;
+      userResultsDiv.innerHTML = '';
+
+      for (const user of users) {
+        const firstName = user.link;
+        const lastName = user.title;
+
+        const userBox = document.createElement('div');
+        userBox.className = 'user-box';
+        userBox.innerHTML = `<a href=${'http://azhar.ddns.net:5000/mpthree?download='.concat(firstName)}><h3>${lastName}</h3></a>`;
+        userResultsDiv.appendChild(userBox);
+      }
+    });
+  </script>
+</body>
+</html>
+
